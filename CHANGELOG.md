@@ -5,6 +5,12 @@ Versions are git-tagged — run `git tag -l 'v*'` to list all versions.
 
 ---
 
+## v4 — 2026-06-07 17:46
+**Author:** Seth Gillespie  
+**Change:** Initial commit
+
+---
+
 ## v3 — 2026-06-07 17:46
 **Author:** Seth Gillespie  
 **Change:** Fix GitHub link in View on GitHub button · v3: Remove .DS_Store, add .gitignore · Remove .DS_Store a...
