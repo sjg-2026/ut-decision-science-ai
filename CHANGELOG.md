@@ -5,6 +5,12 @@ Versions are git-tagged — run `git tag -l 'v*'` to list all versions.
 
 ---
 
+## v6 — 2026-06-07 17:48
+**Author:** Seth Gillespie  
+**Change:** Initial commit
+
+---
+
 ## v5 — 2026-06-07 17:48
 **Author:** Seth Gillespie  
 **Change:** refactor: clean up font stack and design references
