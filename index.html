@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decision Science & AI — UT Austin McCombs · May 20–22, 2026</title>
+<script>
+  (function(){
+    try {
+      localStorage.removeItem('theme');
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      document.documentElement.setAttribute('data-theme', mq.matches ? 'dark' : 'light');
+    } catch(e){}
+  })();
+</script>
+<style>
+  :root {
+    --text-primary: #1D1D1F;
+    --text-secondary: #6E6E73;
+    --text-tertiary: #86868B;
+    --text-interactive: #0066CC;
+    --text-error: #E30000;
+    --text-success: #008A00;
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #FBFBFD;
+    --bg-tertiary: #F5F5F7;
+    --border-secondary: #D2D2D7;
+    --accent-orange: #BF5700;
+    --accent-orange-soft: rgba(191, 87, 0, 0.08);
+    --accent-blue: #005F86;
+    --accent-blue-soft: rgba(0, 95, 134, 0.08);
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+  }
+  [data-theme="dark"] {
+    --text-primary: #F5F5F7;
+    --text-secondary: #86868B;
+    --text-tertiary: #6E6E73;
+    --text-interactive: #2997FF;
+    --text-error: #FF3037;
+    --text-success: #30D158;
+    --bg-primary: #000000;
+    --bg-secondary: #161617;
+    --bg-tertiary: #1D1D1F;
+    --border-secondary: #424245;
+    --accent-orange: #FF8C42;
+    --accent-orange-soft: rgba(255, 140, 66, 0.12);
+    --accent-blue: #4FC3F7;
+    --accent-blue-soft: rgba(79, 195, 247, 0.12);
+    --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --text-primary: #F5F5F7;
+      --text-secondary: #86868B;
+      --text-tertiary: #6E6E73;
+      --text-interactive: #2997FF;
+      --text-error: #FF3037;
+      --text-success: #30D158;
+      --bg-primary: #000000;
+      --bg-secondary: #161617;
+      --bg-tertiary: #1D1D1F;
+      --border-secondary: #424245;
+      --accent-orange: #FF8C42;
+      --accent-orange-soft: rgba(255, 140, 66, 0.12);
+      --accent-blue: #4FC3F7;
+      --accent-blue-soft: rgba(79, 195, 247, 0.12);
+      --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* Header */
+  .hero {
+    background: linear-gradient(135deg, var(--accent-orange-soft), var(--accent-blue-soft));
+    border: 1px solid var(--border-secondary);
+    border-radius: 16px;
+    padding: 40px 36px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .hero .eyebrow {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--accent-orange); margin-bottom: 8px;
+  }
+  .hero h1 {
+    font-size: 40px; font-weight: 600; line-height: 1.1;
+    color: var(--text-primary); margin-bottom: 12px;
+  }
+  .hero .sub {
+    font-size: 19px; color: var(--text-secondary); margin-bottom: 20px;
+  }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--bg-primary); border: 1px solid var(--border-secondary);
+    border-radius: 980px; padding: 6px 14px; font-size: 14px; font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .pill strong { color: var(--text-primary); }
+
+  /* Theme toggle (in repo-meta bar) */
+  .theme-toggle {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 980px;
+    padding: 5px 12px 5px 10px;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .theme-toggle:hover {
+    background: var(--accent-orange-soft);
+    border-color: var(--accent-orange);
+    color: var(--accent-orange);
+  }
+  .theme-toggle .icon {
+    display: inline-block; width: 16px; height: 16px;
+    line-height: 1; font-size: 14px;
+  }
+  .theme-toggle .icon-sun { display: inline-block; }
+  .theme-toggle .icon-moon { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: inline-block; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: none; }
+    :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: inline-block; }
+  }
+  .theme-toggle .label-light { display: inline; }
+  .theme-toggle .label-dark { display: none; }
+  [data-theme="dark"] .theme-toggle .label-light { display: none; }
+  [data-theme="dark"] .theme-toggle .label-dark { display: inline; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .label-light { display: none; }
+    :root:not([data-theme="light"]) .theme-toggle .label-dark { display: inline; }
+  }
+
+  /* Section */
+  section { margin-bottom: 40px; }
+  details.sec { border: none; }
+  details.sec > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+  }
+  details.sec > summary::-webkit-details-marker { display: none; }
+  details.sec > summary::after {
+    content: 'Expand';
+    margin-left: auto;
+    background: #000;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 980px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background 0.2s ease;
+  }
+  [data-theme="dark"] details.sec > summary::after { background: #fff; color: #000; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) details.sec > summary::after { background: #fff; color: #000; }
+  }
+  details.sec[open] > summary::after { content: 'Collapse'; }
+  details.sec > summary:hover::after { opacity: 0.85; }
+  details.sec > summary > h2 { margin-bottom: 0; }
+  details.sec > summary:hover > h2 { color: var(--accent-orange); }
+  details.sec > *:not(summary) { margin-top: 16px; }
+
+  /* Repo meta bar */
+  .repo-meta {
+    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+    padding: 10px 16px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 980px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    width: fit-content;
+    margin: 0 auto 24px;
+  }
+  .repo-meta a {
+    color: var(--text-interactive); text-decoration: none; font-weight: 500;
+  }
+  .repo-meta a:hover { text-decoration: underline; }
+  .repo-meta .dot { color: var(--border-secondary); }
+  .repo-meta .badge {
+    background: var(--accent-orange); color: #fff;
+    padding: 2px 8px; border-radius: 980px;
+    font-size: 11px; font-weight: 600;
+  }
+
+  h2 {
+    font-size: 26px; font-weight: 600; margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+  h2 .num {
+    display: inline-block; width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent-orange); color: #fff; font-size: 14px; font-weight: 600;
+    text-align: center; line-height: 32px; margin-right: 12px; vertical-align: 2px;
+  }
+  .section-sub { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; }
+  h3 { font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+
+  /* Cards */
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) { .grid-2,.grid-3,.grid-4 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--bg-secondary); border: 1px solid var(--border-secondary);
+    border-radius: 12px; padding: 20px; box-shadow: var(--shadow);
+  }
+  .card.accent-orange { border-left: 3px solid var(--accent-orange); }
+  .card.accent-blue { border-left: 3px solid var(--accent-blue); }
+
+  .kpi { text-align: center; padding: 24px 16px; }
+  .kpi .value {
+    font-size: 36px; font-weight: 600; color: var(--accent-orange);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .kpi .label {
+    font-size: 13px; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  /* Schedule */
+  .day {
+    background: var(--bg-secondary); border: 1px solid var(--border-secondary);
+    border-radius: 12px; overflow: hidden; margin-bottom: 16px;
+  }
+  .day-head {
+    background: var(--accent-blue-soft); padding: 14px 20px;
+    border-bottom: 1px solid var(--border-secondary);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .day-head h3 { color: var(--accent-blue); margin: 0; font-size: 17px; }
+  .day-head .date { font-size: 14px; color: var(--text-secondary); }
+  .day-body { padding: 8px 0; }
+  .session {
+    display: grid; grid-template-columns: 130px 1fr auto;
+    gap: 16px; padding: 12px 20px; align-items: baseline;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+  .session:last-child { border-bottom: none; }
+  .session .time {
+    font-size: 13px; font-weight: 500; color: var(--accent-orange);
+    font-variant-numeric: tabular-nums;
+  }
+  .session .title { font-weight: 500; }
+  .session .title .desc { display: block; font-weight: 400; color: var(--text-secondary); font-size: 14px; margin-top: 2px; }
+  .session .faculty { font-size: 13px; color: var(--text-tertiary); white-space: nowrap; }
+  .session.break { background: var(--bg-tertiary); }
+  .session.break .title { color: var(--text-tertiary); font-style: italic; font-weight: 400; }
+
+  /* Faculty */
+  .faculty-card { padding: 20px; }
+  .faculty-card .name { font-weight: 600; font-size: 17px; margin-bottom: 4px; color: var(--accent-orange); }
+  .faculty-card .title { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; }
+  .faculty-card .topics { font-size: 14px; color: var(--text-primary); }
+
+  /* Topics */
+  .topic { padding: 18px 20px; }
+  .topic h3 { color: var(--accent-blue); margin-bottom: 8px; }
+  .topic ul { list-style: none; padding: 0; }
+  .topic li { padding: 6px 0; padding-left: 20px; position: relative; font-size: 15px; color: var(--text-primary); }
+  .topic li::before {
+    content: ''; position: absolute; left: 4px; top: 14px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent-orange);
+  }
+
+  /* Ratings */
+  .rating-row {
+    display: grid; grid-template-columns: 1fr 60px 200px;
+    gap: 16px; align-items: center; padding: 10px 0;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+  .rating-row:last-child { border-bottom: none; }
+  .rating-row .lbl { font-size: 14px; color: var(--text-primary); }
+  .rating-row .val { font-weight: 600; color: var(--accent-orange); font-variant-numeric: tabular-nums; text-align: right; }
+  .bar-track { height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-orange), var(--accent-blue)); border-radius: 4px; }
+
+  /* Quote */
+  .quote {
+    background: var(--bg-secondary); border-left: 3px solid var(--accent-orange);
+    padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 12px;
+    font-size: 15px; color: var(--text-primary); font-style: italic;
+  }
+  .quote::before { content: '"'; color: var(--accent-orange); font-size: 28px; line-height: 0; vertical-align: -8px; margin-right: 4px; }
+
+  /* Lecture notes */
+  .lecture {
+    background: var(--bg-secondary); border: 1px solid var(--border-secondary);
+    border-radius: 12px; margin-bottom: 16px; overflow: hidden;
+  }
+  .lecture-head {
+    background: var(--accent-orange-soft); padding: 16px 22px;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+  .lecture-head .meta {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--accent-orange); margin-bottom: 4px;
+  }
+  .lecture-head h3 { font-size: 19px; margin-bottom: 6px; color: var(--text-primary); }
+  .lecture-head .tldr { font-size: 14px; color: var(--text-secondary); font-style: italic; }
+  .lecture-body { padding: 18px 22px 6px; }
+  .lecture-body h4 {
+    font-size: 14px; font-weight: 600; margin: 14px 0 6px;
+    color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .lecture-body h4:first-child { margin-top: 0; }
+  .lecture-body p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 8px; }
+  .lecture-body ul { list-style: none; padding: 0; margin: 6px 0 12px; }
+  .lecture-body li {
+    padding: 4px 0 4px 22px; position: relative;
+    font-size: 14px; color: var(--text-primary); line-height: 1.55;
+  }
+  .lecture-body li::before {
+    content: '→'; position: absolute; left: 0; top: 4px;
+    color: var(--accent-orange); font-weight: 600; font-size: 13px;
+  }
+  .lecture-body li.warn::before { content: '⚠'; color: var(--text-error); }
+  .lecture-body li.action::before { content: '☐'; color: var(--accent-blue); }
+
+  /* Takeaways */
+  .takeaway {
+    display: flex; gap: 14px; padding: 14px 0;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+  .takeaway:last-child { border-bottom: none; }
+  .takeaway .icon {
+    flex: 0 0 36px; height: 36px; border-radius: 8px;
+    background: var(--accent-orange-soft); color: var(--accent-orange);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px;
+  }
+  .takeaway .body h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .takeaway .body p { font-size: 14px; color: var(--text-secondary); }
+
+  /* 60-second summary */
+  .summary-card {
+    background: linear-gradient(135deg, var(--accent-orange-soft), var(--accent-blue-soft));
+    border: 1px solid var(--border-secondary);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+  }
+  .summary-card .label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--accent-orange); margin-bottom: 10px;
+  }
+  .summary-card h3 {
+    font-size: 20px; font-weight: 600; margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+  .summary-card p {
+    font-size: 15px; line-height: 1.6; color: var(--text-primary);
+    margin-bottom: 18px;
+  }
+  .summary-card .cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--text-primary); color: var(--bg-primary);
+    border: none; border-radius: 980px;
+    padding: 10px 20px; font-size: 14px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .summary-card .cta:hover { transform: translateY(-1px); opacity: 0.92; }
+  .summary-card .cta:active { transform: translateY(0); }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.55);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .modal-overlay.open { display: flex; opacity: 1; }
+  .modal {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 20px;
+    max-width: 640px; width: 100%;
+    max-height: 85vh; overflow-y: auto;
+    padding: 32px 36px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+  }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal h2 {
+    font-size: 24px; font-weight: 600; margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+  .modal h2 .num { display: none; }
+  .modal .modal-sub {
+    font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--bg-tertiary); border: none;
+    font-size: 18px; line-height: 1; color: var(--text-secondary);
+    cursor: pointer; font-family: inherit;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .modal-close:hover { background: var(--accent-orange); color: #fff; }
+
+  .emoji-list { list-style: none; padding: 0; margin: 0; }
+  .emoji-list li {
+    display: grid; grid-template-columns: 32px 1fr;
+    gap: 14px; align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-secondary);
+    font-size: 14.5px; line-height: 1.5;
+    color: var(--text-primary);
+  }
+  .emoji-list li:last-child { border-bottom: none; }
+  .emoji-list .emoji {
+    font-size: 22px; line-height: 1.2; text-align: center;
+  }
+  .emoji-list strong { color: var(--text-primary); font-weight: 600; }
+  .emoji-list .desc { color: var(--text-secondary); font-size: 13.5px; display: block; margin-top: 2px; }
+
+  footer { text-align: center; padding-top: 32px; color: var(--text-tertiary); font-size: 13px; border-top: 1px solid var(--border-secondary); margin-top: 40px; }
+  footer a { color: var(--text-interactive); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="repo-meta">
+    <span class="badge">v6</span>
+    <span>Last updated <strong>May 28, 2026</strong></span>
+    <span class="dot">·</span>
+    <a href="https://github.com/sjg-2026/ut-decision-science-ai" target="_blank" rel="noopener">View on GitHub ↗</a>
+    <span class="dot">·</span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">
+      <span class="icon icon-sun" aria-hidden="true">☀</span><span class="icon icon-moon" aria-hidden="true">☾</span>
+      <span class="label-light">Light</span><span class="label-dark">Dark</span>
+    </button>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">Texas Executive Education · McCombs School of Business</div>
+    <h1><a href="https://onlineexeced.mccombs.utexas.edu" style="color:inherit;text-decoration:none">Decision Science &amp; AI ↗</a></h1>
+    <div class="sub">A 3-day immersive on-campus program at The University of Texas at Austin — with Great Learning</div>
+    <div class="hero-meta">
+      <span class="pill"><strong>May 20–22, 2026</strong> · Wed–Fri</span>
+      <span class="pill"><strong>McCombs School of Business, Austin TX</strong></span>
+      <span class="pill"><strong>Certificate</strong> of Completion</span>
+      <span class="pill"><strong>4 faculty</strong> · 4 core modules</span>
+    </div>
+  </header>
+
+  <!-- Snapshot KPIs -->
+  <section>
+    <div class="grid grid-3">
+      <div class="card kpi"><div class="value">3</div><div class="label">Days On-Campus</div></div>
+      <div class="card kpi"><div class="value">2.5</div><div class="label">Days Instruction</div></div>
+      <div class="card kpi"><div class="value">4</div><div class="label">Distinguished Faculty</div></div>
+    </div>
+    <figure style="margin:32px 0 0;border-radius:16px;overflow:hidden;border:1px solid var(--border-secondary);background:var(--bg-secondary)">
+      <div style="padding:28px 32px">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent-orange);margin-bottom:8px">📜 Origin Story</div>
+        <h3 style="font-size:22px;margin-bottom:10px"><a href="https://en.wikipedia.org/wiki/Attention_Is_All_You_Need" target="_blank" rel="noopener" style="color:var(--text-primary);text-decoration:none">What started the AI Revolution: Attention Is All You Need ↗</a></h3>
+        <p style="font-size:15px;line-height:1.6;color:var(--text-secondary);margin-bottom:14px">
+          🧪 In June 2017, eight Google researchers (Vaswani et al.) published a NeurIPS paper that quietly rewrote the trajectory of AI. 🚫 They threw out recurrence (RNNs, LSTMs) and convolutions, replacing them with a single mechanism — <strong>self-attention</strong>. ⚡ The resulting <strong>Transformer</strong> architecture was massively parallelizable, trained dramatically faster, and immediately set state-of-the-art on machine translation. 🏗️ Within a few years it became the foundation of <strong>BERT, GPT, T5, LLaMA</strong>, and every major LLM that followed. 🎶 The title is a Beatles reference ("All You Need Is Love"). 📈 With 100,000+ citations, it's one of the most influential ML papers ever written — and the moment "attention" went from a useful trick to <em>the</em> dominant paradigm.
+        </p>
+        <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--text-interactive);text-decoration:none;padding:6px 12px;border:1px solid var(--border-secondary);border-radius:980px">📄 Read the original paper on arXiv ↗</a>
+      </div>
+    </figure>
+
+    <figure style="margin:24px 0 0;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border-secondary)">
+      <img src="Span%20Image.jpeg" alt="Cohort &amp; campus imagery from the Decision Science &amp; AI program" style="display:block;width:100%;height:auto;object-fit:cover">
+    </figure>
+  </section>
+
+  <!-- 60-second summary -->
+  <section>
+    <div class="summary-card">
+      <div class="label">⏱ 60-Second Summary</div>
+      <h3>What this 3-day program was, in one read</h3>
+      <p>
+        🎓 A McCombs executive-education immersive on the technical <em>and</em> human side of AI. 👨‍🏫 Faculty walked the cohort from foundational 🧠 neural networks → 🔤 embeddings → 👁️ transformers &amp; attention → 🤖 LLMs → a hands-on 🔍 <strong>RAG system over a public company's 📄 10-K filings</strong>. 💡 Recurring themes: modern AI architectures are <em>experimentally discovered</em> 🔬 (the published winners are survivors of thousands of failed runs); 🌀 hallucination is statistical pattern-completion, not deception; and ⚙️ production systems should prefer simpler RAG pipelines over abstract agent frameworks. 🛠️ Practical techniques covered 🎯 cross-encoder &amp; LLM re-ranking, ✨ generate-and-embed retrieval, 🗂️ jargon enrichment, and 🚦 using an LLM as a router across specialized data stores. 🤝 The leadership track defined trust as <strong>“accepting vulnerability”</strong> and introduced a 🪜 four-part negotiation prep — aspirations, reservation price, BATNA, interests — plus the counterintuitive tactic of 🥉 visiting your third choice first. 🚀 The result: a working mental model from neurons to RAG, plus tactics applicable to 🗺️ product roadmaps and 💼 vendor negotiations on Monday.
+      </p>
+      <button class="cta" id="openModal" aria-haspopup="dialog">🎯 What I Learned</button>
+    </div>
+  </section>
+
+  <!-- Program overview -->
+  <section id="s1">
+  <details class="sec">
+    <summary><h2><span class="num">1</span>Program Overview</h2></summary>
+    <div class="section-sub">Why this program exists and what it set out to do.</div>
+    <div class="grid grid-2">
+      <div class="card accent-orange">
+        <h3>The thesis</h3>
+        <p style="color:var(--text-secondary);font-size:15px;line-height:1.6">
+          AI now requires professionals who can <strong>design and lead</strong> intelligent systems — not just consume them.
+          The program offers an immersive opportunity to explore real AI use cases and become a driving force behind
+          AI initiatives in your organization, with direct access to McCombs faculty actively consulting and implementing in industry.
+        </p>
+      </div>
+      <div class="card accent-blue">
+        <h3>What sets it apart</h3>
+        <p style="color:var(--text-secondary);font-size:15px;line-height:1.6">
+          Beyond theory: practical skills you can apply at work the next week. Hands-on labs with Transformers, RAG,
+          and Vector Databases. A leadership module on negotiation. A team AI Challenge. Networking with peers
+          who are all building AI strategy in their own orgs.
+        </p>
+      </div>
+    </div>
+  
+  </details>
+</section>
+
+  <!-- Core topics arc -->
+  <section id="s2">
+  <details class="sec">
+    <summary><h2><span class="num">2</span>The Learning Arc</h2></summary>
+    <div class="section-sub">How the modules built on each other — from a single neuron to a production-ready RAG system, plus a leadership detour.</div>
+    <div class="grid grid-2">
+      <div class="card topic">
+        <h3>1 · Neurons → Networks → Training</h3>
+        <ul>
+          <li>Neuron = weighted sum + bias → activation; bias as a threshold</li>
+          <li>Architecture is found <em>experimentally</em> — published successes hide thousands of failed runs</li>
+          <li>Training: random init → gradient-based weight nudges → repeat at massive scale</li>
+          <li>Coffee-shop sales toy model: prediction of −37 → ~100 via iterative updates</li>
+        </ul>
+      </div>
+      <div class="card topic">
+        <h3>2 · Embeddings &amp; Word2Vec</h3>
+        <ul>
+          <li>Embeddings = dense vectors; dimensionality (300, 400…) is a design knob</li>
+          <li>Skip-gram / CBOW: one-hot in → softmax over vocab → hidden layer becomes the embedding</li>
+          <li>Cosine similarity; vector arithmetic (king − man + woman ≈ queen)</li>
+          <li>Domain corpus determines embedding behavior — same word, different vector</li>
+        </ul>
+      </div>
+      <div class="card topic">
+        <h3>3 · Transformers &amp; Attention</h3>
+        <ul>
+          <li>Tokenization (subword vs word; LLaMA uses subword)</li>
+          <li>Positional encoding: sinusoidal vs learned vs RoPE</li>
+          <li>Attention = library analogy: query (topic), keys (titles), values (contents)</li>
+          <li>Self-attention walkthrough with "Dan is here" using 3-element vectors</li>
+          <li>BERT (bidirectional) vs GPT (autoregressive)</li>
+        </ul>
+      </div>
+      <div class="card topic">
+        <h3>4 · LLMs in Practice</h3>
+        <ul>
+          <li>Decoder loop: probability over vocab (~40k) → sample with temperature → EOS</li>
+          <li>Hallucination = probabilistic pattern completion, not "lying"</li>
+          <li>Mixture-of-experts &amp; state-space models for scale and long context</li>
+          <li>Data provenance, copyright lawsuits, privacy mode (web vs API vs enterprise)</li>
+        </ul>
+      </div>
+      <div class="card topic">
+        <h3>5 · Retrieval-Augmented Generation</h3>
+        <ul>
+          <li>Pipeline: chunk → embed → retrieve top-k → augment prompt → generate</li>
+          <li>Re-ranking: cross-encoder pairwise / inverse-rank aggregation / LLM re-ranker</li>
+          <li>Generate-and-embed (answer-to-answer matching); jargon enrichment for technical corpora</li>
+          <li>LLM as router across multiple specialized databases</li>
+          <li>Hands-on: RAG Q&amp;A bot over a public company's 10-K filings</li>
+        </ul>
+      </div>
+      <div class="card topic">
+        <h3>6 · The Art &amp; Science of Negotiation</h3>
+        <ul>
+          <li>Trust = accepting vulnerability</li>
+          <li>Prep framework: aspirations · reservation price · BATNA · interests</li>
+          <li>Anchor optimistically but defensibly; visit your <em>third</em> choice first</li>
+          <li>Experts ask 22–24% of the time; follow-up questions signal listening</li>
+          <li>Sugar-bowl paired simulation</li>
+        </ul>
+      </div>
+    </div>
+  
+  </details>
+</section>
+
+  <!-- Faculty -->
+  <section id="s3">
+  <details class="sec">
+    <summary><h2><span class="num">3</span>Faculty</h2></summary>
+    <div class="section-sub">Distinguished McCombs faculty actively engaged in research, consulting, and implementation.</div>
+    <div class="grid grid-2">
+      <div class="card faculty-card">
+        <div class="name">Dr. Kumar Muthuraman</div>
+        <div class="title">University Distinguished Teaching Professor — McCombs School of Business</div>
+        <div class="topics"><strong>Taught:</strong> Introduction to AI — Network Models from NNs to LLMs (Day 1 morning)</div>
+      </div>
+      <div class="card faculty-card">
+        <div class="name">Dr. Zena Drakou</div>
+        <div class="title">Director, Business Analytics Major — McCombs School of Business</div>
+        <div class="topics"><strong>Taught:</strong> Large Language Models Deep Dive — how they work and how to work with them (Day 1 afternoon, ~4 hours hands-on)</div>
+      </div>
+      <div class="card faculty-card">
+        <div class="name">Dr. Daniel Mitchell</div>
+        <div class="title">Clinical Assistant Professor; Associate Director, Center for Analytics &amp; Transformative Technologies (CATT)</div>
+        <div class="topics"><strong>Taught:</strong> Transformers, RAG &amp; Vector Databases, hands-on RAG Q&amp;A bot, and Day 3 group project (the most class time of any instructor)</div>
+      </div>
+      <div class="card faculty-card">
+        <div class="name">Dr. Gaylen Paulson</div>
+        <div class="title">Associate Dean &amp; Director, Texas Executive Education</div>
+        <div class="topics"><strong>Taught:</strong> The Art &amp; Science of Negotiation (Day 2 evening leadership workshop)</div>
+      </div>
+    </div>
+  
+  </details>
+</section>
+
+  <!-- Detailed Session Notes -->
+  <section id="s4">
+  <details class="sec" open>
+    <summary><h2><span class="num">4</span>Detailed Session Notes</h2></summary>
+    <div class="section-sub">Captured live during each lecture. The chronological build-up of the technical curriculum.</div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 1 · Morning · Dr. Kumar Muthuraman</div>
+        <h3>Neurons, Networks &amp; Training</h3>
+        <div class="tldr">Artificial neurons as weighted-sum + bias units, stacked into layers, trained by nudging millions of randomly-initialized weights via gradients.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>The neuron</h4>
+        <ul>
+          <li>X₁..Xₙ × W₁..Wₙ + bias B → activation function → output (e.g., yes/no)</li>
+          <li>Bias = activation threshold; can be viewed as W₀ × constant input</li>
+          <li>Activation can be jumpy or smooth — the building block is simple, the power comes from combination</li>
+        </ul>
+        <h4>Training mechanics</h4>
+        <ul>
+          <li>Initialize weights randomly → predict → compare to ground truth → derivatives tell you how to nudge each "dial"</li>
+          <li>Repeat millions of times; compute scale is what makes it feasible</li>
+          <li>Toy example: predict cups sold from price, promotion, school-in-session — 35 parameters, prediction starts at −37 vs actual ~100</li>
+          <li>If convergence is poor: more data, or more model complexity, then retry</li>
+        </ul>
+        <h4>Scientific process</h4>
+        <ul>
+          <li class="warn">Transformers followed thousands of failed experiments — papers publish the winner + post-hoc rationale</li>
+          <li>This creates an illusion of clairvoyance about architecture; real practice is iteration</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 1 · Morning (cont.)</div>
+        <h3>Neural Network Fundamentals &amp; Q&amp;A</h3>
+        <div class="tldr">Capacity-vs-specificity trade-offs, training mechanics, RNN vs Transformer memory, hallucination as pattern completion.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Capacity vs domain specificity</h4>
+        <ul>
+          <li>80/20 principle: flexible enough to learn the task, not so flexible it needs impractical data/compute</li>
+          <li>Domain-specific corpus → domain-specific behavior; mixing domains can hurt</li>
+          <li>Often better to train multiple specialized models than one oversized general one</li>
+        </ul>
+        <h4>Training loop reality</h4>
+        <ul>
+          <li>Predict next character/token → measure error → derivatives → tiny weight updates → repeat across millions of tokens &amp; many epochs</li>
+          <li>After deployment, weights are <strong>fixed</strong>; prompting does not retrain the model</li>
+        </ul>
+        <h4>Memory &amp; architecture</h4>
+        <ul>
+          <li>Don't equate networks to brains — biological brains rewire dynamically; networks have fixed architecture during inference</li>
+          <li>Sequence tasks need a memory mechanism; Transformers + attention beat older RNNs at language</li>
+        </ul>
+        <h4>Hallucination &amp; knowledge graphs</h4>
+        <ul>
+          <li>Hallucination = predicting a plausible continuation, not "lying"</li>
+          <li>Knowledge graphs are promising but current integrations are ad hoc and inconclusive</li>
+        </ul>
+        <h4>Demo</h4>
+        <ul>
+          <li>Character-level RNN trained on 2M chars of real-estate text — domain emerged across epochs</li>
+          <li class="action">Instructor will share Jupyter notebook, dataset, and slides</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 1 · Afternoon · Dr. Zena Drakou</div>
+        <h3>Word Embeddings, LLMs &amp; Model Bias</h3>
+        <div class="tldr">From static word vectors (word2vec) to contextual Transformer embeddings, with hard truths about bias and hallucination.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Embeddings</h4>
+        <ul>
+          <li>Numerical vectors are required to feed language into LLMs</li>
+          <li>Dimensionality (e.g., 300 vs 400) is a tunable design choice</li>
+          <li>Different corpora produce different embeddings for the same word — finance vs conservation domains</li>
+        </ul>
+        <h4>Word2Vec mechanics</h4>
+        <ul>
+          <li>10k vocab, one-hot input → hidden layer (= embedding size) → softmax over vocab to predict context</li>
+          <li>Loss + backprop iterate weights until correct context words get high probability</li>
+          <li>Hidden-layer activations after training <strong>are</strong> the embeddings</li>
+          <li>Context window (±3 words typical) defines which pairs train</li>
+        </ul>
+        <h4>Semantic geometry</h4>
+        <ul>
+          <li>Cosine similarity measures closeness</li>
+          <li>Vector arithmetic captures relations: king − man + woman ≈ queen; plurality and gender vectors emerge naturally</li>
+        </ul>
+        <h4>Bias &amp; hallucination</h4>
+        <ul>
+          <li class="warn">Models inherit biases of training data — early face-recognition trained mostly on white people</li>
+          <li class="warn">Hallucinations risk being amplified if used as training signal in next iteration</li>
+          <li>Mitigations: filtering, safety checks, vetted domain-specific fine-tuning corpora</li>
+        </ul>
+        <h4>Transformers preview</h4>
+        <ul>
+          <li>Unlike static word2vec, Transformers produce <strong>contextual</strong> embeddings — same word, different vector depending on sentence</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 1 · Late Afternoon</div>
+        <h3>Intro to Transformers &amp; Attention</h3>
+        <div class="tldr">From seq2seq RNN bottlenecks → attention → BERT vs GPT. Demo: swap word vectors for transformer embeddings → measurable accuracy lift on movie-review classification.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>NLP timeline</h4>
+        <ul>
+          <li>Static word vectors → seq2seq encoder/decoder RNNs (early 2000s–2013) → attention (2017) → BERT, GPT</li>
+          <li>RNN translation compressed entire input into a fixed-size vector → information loss for long inputs</li>
+        </ul>
+        <h4>Attention conceptually</h4>
+        <ul>
+          <li>Computes weighted relationships between every pair of tokens → context-aware embedding per token</li>
+          <li>Function words get low weight; semantically heavy words get high weight</li>
+          <li>Example: "blue" as color vs emotion resolved by attention</li>
+        </ul>
+        <h4>Encoder–decoder + attention</h4>
+        <ul>
+          <li>Decoder can <strong>look back</strong> at encoder states selectively — no more single bottleneck vector</li>
+        </ul>
+        <h4>Practical demo</h4>
+        <ul>
+          <li>Notebook: same classifier, only embeddings swapped (word vectors → transformer) → accuracy improves on movie-review sentiment</li>
+        </ul>
+        <h4>BERT vs GPT</h4>
+        <ul>
+          <li>BERT: bidirectional → encoding/classification</li>
+          <li>GPT: autoregressive → generation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 2 · Morning · Dr. Dan Mitchell</div>
+        <h3>Transformer Internals: Tokenization, Positional Encoding, Attention</h3>
+        <div class="tldr">The deep technical session — queries/keys/values via the library analogy, with a numerical "Dan is here" self-attention walkthrough.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Tokenization &amp; embeddings</h4>
+        <ul>
+          <li>LLaMA uses subword tokenization for efficient vocab math; word-level is more intuitive for teaching</li>
+          <li>Embeddings are looked up from a dictionary, then modified by the Transformer layers</li>
+          <li>Token vectors themselves can be updated during training (gradient descent)</li>
+        </ul>
+        <h4>Positional encoding</h4>
+        <ul>
+          <li>Without position info, "Dan saw Pat" and "Pat saw Dan" produce identical math</li>
+          <li>Original Attention paper used sinusoidal (trig-based) encodings — hand-crafted to approximate orthogonality across many positions</li>
+          <li>Modern alternatives: <strong>learned</strong> positional vectors and <strong>RoPE</strong> (rotary positional encoding)</li>
+          <li>Constraint: you can't have more orthogonal vectors than embedding dimensionality</li>
+        </ul>
+        <h4>Attention = library analogy</h4>
+        <ul>
+          <li><strong>Query</strong> = your report topic</li>
+          <li><strong>Keys</strong> = book titles you skim to choose which books are relevant</li>
+          <li><strong>Values</strong> = book contents you actually read &amp; combine</li>
+          <li>Math: dot(Q,K) → softmax → weighted average of V</li>
+        </ul>
+        <h4>Self-attention walkthrough</h4>
+        <ul>
+          <li>"Dan is here" with 3-element vectors per token</li>
+          <li>Use each token in turn as the query; all tokens as keys; weighted-average their values</li>
+          <li>Result: each token gets an updated, context-aware vector</li>
+        </ul>
+        <h4>Scale reality</h4>
+        <ul>
+          <li class="warn">Training a frontier LLM = months on thousands of GPUs — generally infeasible solo</li>
+          <li>Use pre-trained models; fine-tune embeddings + positional vectors as needed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 2 · Mid-morning</div>
+        <h3>Transformers &amp; LLMs Workshop</h3>
+        <div class="tldr">How LLMs generate text, training objective, MoE / state-space architectures, and the legal / privacy minefield.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Generation loop</h4>
+        <ul>
+          <li>Decoder: token vectors → positional → multi-head attention → feed-forward → probability over ~40k vocab</li>
+          <li>Sample one token (temperature controls randomness) → append to context → repeat until EOS</li>
+        </ul>
+        <h4>Training objective</h4>
+        <ul>
+          <li>Maximum-likelihood next-token prediction across massive corpora</li>
+          <li>Probability assigned to the true next token = quality proxy → gradient descent</li>
+        </ul>
+        <h4>Data &amp; legal exposure</h4>
+        <ul>
+          <li class="warn">Web scraping has triggered lawsuits (news publishers); private repos have been accessed</li>
+          <li class="warn">Garbage-in / garbage-out — training data quality directly affects reliability</li>
+        </ul>
+        <h4>Architectural advances</h4>
+        <ul>
+          <li><strong>Mixture-of-Experts (MoE):</strong> route tokens to a subset of expert networks → more params, less compute per inference</li>
+          <li><strong>State-space models:</strong> evolving state vector avoids reprocessing entire history → cheaper long-context</li>
+        </ul>
+        <h4>Fine-tuning &amp; agents</h4>
+        <ul>
+          <li>Fine-tuning improves <em>style</em> but doesn't guarantee facts — can amplify hallucinations</li>
+          <li>Agents (LLM + tools/SQL/code) yield more reliable, fact-backed answers</li>
+          <li>For structured data: have the LLM generate the query, execute it externally, summarize results</li>
+        </ul>
+        <h4>Privacy guidance</h4>
+        <ul>
+          <li class="warn">Web interface inputs may be added to training corpora — prefer <strong>API or enterprise plan</strong> for sensitive content</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 2 · Afternoon</div>
+        <h3>Agent Workflows &amp; Intro to RAG</h3>
+        <div class="tldr">Why structured agent workflows beat free-form agents in business, and how RAG grounds an LLM in real source material.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Workflows vs free-form agents</h4>
+        <ul>
+          <li>Agent <strong>workflow</strong>: human-designed flowchart, LLM picks which branch</li>
+          <li>Pure agents are flexible but unpredictable — risky for production</li>
+          <li>Example: IT ticket router uses LLM to classify, check FAQ, draft response</li>
+        </ul>
+        <h4>RAG pipeline</h4>
+        <ul>
+          <li>Query → semantic search → retrieve top chunks → augment prompt → generate</li>
+          <li>Grounded answers reduce hallucination dramatically vs LLM-alone</li>
+        </ul>
+        <h4>Embeddings &amp; retrieval</h4>
+        <ul>
+          <li>Encode query and chunks → dot-product similarity → rank</li>
+          <li>Chunk vector = average of token vectors, OR use the BOS/[CLS] token — quality varies</li>
+          <li>Off-the-shelf BERT isn't optimized for retrieval without fine-tuning</li>
+        </ul>
+        <h4>Fine-tuning embeddings</h4>
+        <ul>
+          <li>Contrastive training with similar/dissimilar pairs</li>
+          <li>Sources: StackOverflow duplicate Qs, Reddit ELI5 question/answer threads</li>
+        </ul>
+        <h4>Tools</h4>
+        <ul>
+          <li><code>sentence-transformers</code> Python library</li>
+          <li>Hugging Face leaderboard for picking embedding models</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 2 · Late Afternoon · Hands-On</div>
+        <h3>RAG &amp; Advanced Retrieval Workshop</h3>
+        <div class="tldr">Built a RAG system in a few lines. Then layered re-ranking, generate-and-embed, jargon enrichment, and an LLM router across multiple databases.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Pragmatic stack</h4>
+        <ul>
+          <li>Minimal RAG = a handful of lines: chunk → embed → query → top-k → prompt → generate</li>
+          <li class="warn">LangChain / generic-agent frameworks: useful for prototyping, fragile for production — self-implement core pieces when shipping</li>
+        </ul>
+        <h4>Re-ranking strategies</h4>
+        <ul>
+          <li><strong>Cross-encoder pairwise:</strong> high accuracy, expensive — only run on a small candidate set</li>
+          <li><strong>Inverse-rank aggregation:</strong> run multiple embedding models, sum weighted inverse ranks → cheap consensus</li>
+          <li><strong>LLM re-ranker:</strong> ask the model to order a fixed candidate list</li>
+          <li>Pattern: dense retriever shortlists → re-ranker refines → keeps latency manageable</li>
+        </ul>
+        <h4>Beyond plain similarity</h4>
+        <ul>
+          <li><strong>Generate-and-embed:</strong> have the LLM draft a candidate answer, embed <em>that</em>, retrieve chunks similar to it (answer-to-answer matching often beats question-to-document)</li>
+          <li><strong>Jargon enrichment</strong> (recent FB paper): use an LLM to extract domain keywords/synonyms per chunk → fast BM25-style keyword lookups for technical queries</li>
+        </ul>
+        <h4>Multi-database orchestration</h4>
+        <ul>
+          <li>LLM as router: decides which database (sales / specs / customer comms) and which retrieval method to call</li>
+          <li>Can extend search depth, fall back, or honestly return "I don't know" when results are weak</li>
+        </ul>
+        <h4>Use cases observed</h4>
+        <ul>
+          <li>Customer support bots, internal Slack bots, repair-manual Q&amp;A</li>
+          <li>Hands-on lab: RAG over the 10-K filing of a public company</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 2 · Evening · Dr. Gaylen Paulson</div>
+        <h3>Negotiation Workshop — Foundations</h3>
+        <div class="tldr">Trust = accepting vulnerability. Learn-mode posture, real stories of bad anchoring, and a paired sugar-bowl simulation.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Framing</h4>
+        <ul>
+          <li>The session is for <strong>learning</strong>, not performing — bring vulnerability, not skill</li>
+          <li>Goal: deepen technical depth while broadening to T-shaped awareness</li>
+        </ul>
+        <h4>Trust</h4>
+        <ul>
+          <li><strong>Trust = accepting vulnerability.</strong> Asking for trust = asking someone to expose themselves to risk</li>
+          <li>Framing &amp; communication choices determine whether others will accept that vulnerability</li>
+        </ul>
+        <h4>Stories that stuck</h4>
+        <ul>
+          <li><strong>Princeton salary anchor:</strong> low-anchoring a faculty hire created retention &amp; poaching exposure</li>
+          <li><strong>Sisters &amp; the orange:</strong> 50/50 split looked fair but was suboptimal — one wanted juice, one wanted peel. Find <em>interests</em>, not positions</li>
+        </ul>
+        <h4>Preparation as the lever</h4>
+        <ul>
+          <li>Many conflicts are recurring &amp; predictable — anticipate &amp; design ahead</li>
+          <li>Wording shapes behavior: "can we explore together?" beats "let's negotiate"</li>
+        </ul>
+        <h4>Sugar-bowl simulation</h4>
+        <ul>
+          <li>5–7 min prep, paired with a new partner, limited info</li>
+          <li>Embellish OK; gross changes not OK; lying realistic</li>
+          <li class="action">If deal: record + sign + keep confidential until debrief. If no deal: record last offers same way</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lecture">
+      <div class="lecture-head">
+        <div class="meta">Day 2 · Evening (cont.)</div>
+        <h3>Negotiation Strategies: Anchors, BATNA, Connection</h3>
+        <div class="tldr">The tactical playbook: anchor optimistically, prepare four things, visit your third choice first, and ask far more follow-up questions than you think.</div>
+      </div>
+      <div class="lecture-body">
+        <h4>Anchoring &amp; opening offers</h4>
+        <ul>
+          <li>First offers <strong>anchor</strong> the entire range — go first when you understand the counterpart's bottom</li>
+          <li>Aspirations should be ambitious <em>and</em> defensible — always be ready to explain the number</li>
+        </ul>
+        <h4>The negotiator's dilemma</h4>
+        <ul>
+          <li>Sharing info enables joint gains <em>and</em> invites exploitation</li>
+          <li>Decide disclosure strategy in prep, anchored to your goals + BATNA</li>
+        </ul>
+        <h4>The four-part prep framework</h4>
+        <ul>
+          <li><strong>Aspirations</strong> — what you hope to achieve</li>
+          <li><strong>Reservation price</strong> — minimum acceptable</li>
+          <li><strong>BATNA</strong> — Best Alternative To a Negotiated Agreement</li>
+          <li><strong>Interests</strong> — the underlying <em>why</em></li>
+        </ul>
+        <h4>Two rules for alternatives</h4>
+        <ul>
+          <li>Cultivate <strong>at least 3</strong> options — never depend on one supplier or buyer</li>
+          <li><strong>Visit your 3rd choice first.</strong> Concretizes alternatives, gives you real terms, strengthens leverage with the preferred party</li>
+        </ul>
+        <h4>Resisting pressure tactics</h4>
+        <ul>
+          <li>Manufactured urgency (countdowns, "limited quantity") = sales tactic, not reality</li>
+          <li>Counter: ask clarifying questions ("what about past customers?", "any rule exceptions?") instead of reacting</li>
+        </ul>
+        <h4>Building connection</h4>
+        <ul>
+          <li><strong>Prepare topics</strong> before the meeting — small effort, big return</li>
+          <li>Experts ask questions <strong>22–24%</strong> of the time</li>
+          <li><strong>Follow-up questions</strong> (which require listening) are the highest-leverage move for rapport</li>
+          <li>Avoid loaded words ("negotiator", "negotiate") — collaborative phrasing lowers defenses</li>
+        </ul>
+      </div>
+    </div>
+  
+  </details>
+</section>
+
+  <!-- Apply Monday -->
+  <section id="s5">
+  <details class="sec">
+    <summary><h2><span class="num">5</span>What I Can Now Apply</h2></summary>
+    <div class="section-sub">The handful of moves that actually transfer to work this week.</div>
+    <div class="card">
+      <div class="takeaway">
+        <div class="icon">01</div>
+        <div class="body">
+          <h4>Build a minimal RAG before reaching for a framework</h4>
+          <p>Chunk → embed → top-k → augment → generate. Few lines of code. Skip LangChain abstractions until you understand the pieces — frameworks are fragile in production.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">02</div>
+        <div class="body">
+          <h4>Layer re-ranking only where it pays</h4>
+          <p>Use a cheap dense retriever to shortlist; apply cross-encoder pairwise scoring or LLM re-ranking on the small candidate set. Inverse-rank aggregation is essentially free when combining multiple embedding models.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">03</div>
+        <div class="body">
+          <h4>Try generate-and-embed when queries don't match document phrasing</h4>
+          <p>Have the LLM draft a candidate answer, embed <em>that</em>, then retrieve. Answer-to-answer matching often beats question-to-document.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">04</div>
+        <div class="body">
+          <h4>Have an LLM route across specialized stores</h4>
+          <p>Don't merge everything into one index. Let the LLM pick which database (sales, specs, comms) and which retrieval method to call — and to honestly say "I don't know" when results are weak.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">05</div>
+        <div class="body">
+          <h4>For structured data, generate the query — don't analyze in the LLM</h4>
+          <p>Have the model write SQL/code; execute it externally; summarize the result. This dodges the worst hallucination class.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">06</div>
+        <div class="body">
+          <h4>Pick the privacy mode deliberately</h4>
+          <p>Web UI → inputs may be added to training corpora. For anything sensitive, default to API or enterprise plan.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">07</div>
+        <div class="body">
+          <h4>Prep every negotiation in four lines</h4>
+          <p>Aspiration · Reservation · BATNA · Interests. Cultivate ≥3 alternatives. Visit your <em>third</em> choice first.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">08</div>
+        <div class="body">
+          <h4>Ask more follow-up questions</h4>
+          <p>Experts ask 22–24% of the time; novices much less. Follow-ups are the cheapest, highest-signal way to build rapport and surface real interests.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">09</div>
+        <div class="body">
+          <h4>Don't equate networks with brains, or hallucination with lying</h4>
+          <p>Networks have fixed inference architecture. Hallucination = probabilistic pattern completion. Both reframings change how you scope risk and explain limits to non-technical stakeholders.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="icon">10</div>
+        <div class="body">
+          <h4>Trust the iteration over the published narrative</h4>
+          <p>Transformers were the survivor of thousands of failed experiments. Don't be intimidated by post-hoc clean stories — run the experiment.</p>
+        </div>
+      </div>
+    </div>
+  
+  </details>
+</section>
+
+  <!-- Ratings -->
+  <section id="s6">
+  <details class="sec">
+    <summary><h2><span class="num">6</span>Cohort Ratings</h2></summary>
+    <div class="section-sub">How prior cohorts rated the program (1–7 scale, 7 highest).</div>
+    <div class="card">
+      <div class="rating-row"><span class="lbl">Instructor's Responsiveness</span><span class="val">6.70</span><div class="bar-track"><div class="bar-fill" style="width:95.7%"></div></div></div>
+      <div class="rating-row"><span class="lbl">Instructor's Subject Matter Expertise &amp; Real-World Applications</span><span class="val">6.56</span><div class="bar-track"><div class="bar-fill" style="width:93.7%"></div></div></div>
+      <div class="rating-row"><span class="lbl">Overall Program Experience</span><span class="val">6.55</span><div class="bar-track"><div class="bar-fill" style="width:93.6%"></div></div></div>
+      <div class="rating-row"><span class="lbl">Concepts Learned &amp; New Ideas Explored</span><span class="val">6.50</span><div class="bar-track"><div class="bar-fill" style="width:92.9%"></div></div></div>
+      <div class="rating-row"><span class="lbl">Session Structure &amp; Learning Objectives</span><span class="val">6.48</span><div class="bar-track"><div class="bar-fill" style="width:92.6%"></div></div></div>
+      <div class="rating-row"><span class="lbl">Session Engagement</span><span class="val">6.47</span><div class="bar-track"><div class="bar-fill" style="width:92.4%"></div></div></div>
+    </div>
+  
+  </details>
+</section>
+
+  <!-- Quotes -->
+  <section id="s7">
+  <details class="sec">
+    <summary><h2><span class="num">7</span>What Past Attendees Said</h2></summary>
+    <div class="section-sub">Selected testimonials from prior cohorts.</div>
+    <div class="grid grid-2">
+      <div>
+        <div class="quote">I went into the session knowing nothing about LLMs and RAGs, but I came out conceptually understanding LLMs and even understanding how to build a RAG.</div>
+        <div class="quote">Excellent program to build up the foundations and have some hands-on practice.</div>
+        <div class="quote">Everything was well organized and the material was practical and comprehensive.</div>
+      </div>
+      <div>
+        <div class="quote">All the instructors are world class teachers and are very passionate about it. It was energizing to meet and network.</div>
+        <div class="quote">Dr. Mitchell did an excellent job relating concepts to real-world applications and efficiently explaining them.</div>
+        <div class="quote">Professor Kumar created a great space for discussion and made sure we all understood foundational concepts.</div>
+      </div>
+    </div>
+  
+  </details>
+</section>
+
+  <!-- Logistics -->
+  <section id="s8">
+  <details class="sec">
+    <summary><h2><span class="num">8</span>Logistics &amp; Credentials</h2></summary>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Venue</h3>
+        <p style="color:var(--text-secondary);font-size:14px">McCombs School of Business · Austin, TX</p>
+      </div>
+      <div class="card">
+        <h3>Credentials Earned</h3>
+        <p style="color:var(--text-secondary);font-size:14px">Certificate of Completion from The University of Texas at Austin · 1 CEU (Continuing Education Unit) for 2.5 days of instruction</p>
+      </div>
+      <div class="card">
+        <h3>Audience &amp; Prereqs</h3>
+        <p style="color:var(--text-secondary);font-size:14px">Professionals advancing in Data Science, AI &amp; ML. Working knowledge of Python (functions, loops, basic data manipulation) and Machine Learning recommended.</p>
+      </div>
+    </div>
+  
+  </details>
+</section>
+
+  <footer>
+    <p>Decision Science &amp; AI · Texas Executive Education · McCombs School of Business · The University of Texas at Austin</p>
+    <p style="margin-top:6px">In collaboration with Great Learning · <a href="mailto:uta-immersion@mygreatlearning.com">uta-immersion@mygreatlearning.com ↗</a></p>
+  </footer>
+
+</div>
+
+<!-- Modal: What I Learned -->
+<div class="modal-overlay" id="learnedModal" role="dialog" aria-modal="true" aria-labelledby="learnedTitle">
+  <div class="modal" role="document">
+    <button class="modal-close" id="closeModal" aria-label="Close">✕</button>
+    <h2 id="learnedTitle">🎯 What I Learned</h2>
+    <div class="modal-sub">A scannable map of the entire 3-day program.</div>
+    <ul class="emoji-list">
+      <li><span class="emoji">🧠</span><div><strong>Neurons → networks → trained by gradients</strong><span class="desc">Random init, predict, nudge weights, repeat at scale.</span></div></li>
+      <li><span class="emoji">🔤</span><div><strong>Embeddings turn meaning into geometry</strong><span class="desc">word2vec, cosine similarity, king − man + woman ≈ queen.</span></div></li>
+      <li><span class="emoji">👁️</span><div><strong>Attention = library analogy</strong><span class="desc">Query (topic), keys (titles), values (contents) → context-aware vectors.</span></div></li>
+      <li><span class="emoji">🤖</span><div><strong>LLMs sample tokens until EOS</strong><span class="desc">Temperature controls randomness; hallucination = pattern completion, not lying.</span></div></li>
+      <li><span class="emoji">🔍</span><div><strong>RAG in five steps</strong><span class="desc">Chunk → embed → retrieve top-k → augment prompt → generate.</span></div></li>
+      <li><span class="emoji">🎯</span><div><strong>Re-rank to lift precision</strong><span class="desc">Cross-encoder pairwise · inverse-rank aggregation · LLM judge.</span></div></li>
+      <li><span class="emoji">🗂️</span><div><strong>Generate-and-embed + jargon enrichment</strong><span class="desc">Match answer-to-answer; extract domain keywords for keyword search.</span></div></li>
+      <li><span class="emoji">🚦</span><div><strong>LLM as router</strong><span class="desc">Pick which database and retrieval method per query — return “I don't know” when weak.</span></div></li>
+      <li><span class="emoji">🛠️</span><div><strong>For structured data, generate the query</strong><span class="desc">LLM writes SQL, executes externally, summarizes — dodges hallucination.</span></div></li>
+      <li><span class="emoji">🔒</span><div><strong>Privacy mode is a deliberate choice</strong><span class="desc">Web UI may train on inputs — use API or enterprise plan for sensitive content.</span></div></li>
+      <li><span class="emoji">🤝</span><div><strong>Trust = accepting vulnerability</strong><span class="desc">Framing &amp; communication determine whether the other party will accept it.</span></div></li>
+      <li><span class="emoji">🪜</span><div><strong>Negotiation prep in four lines</strong><span class="desc">Aspiration · Reservation price · BATNA · Interests.</span></div></li>
+      <li><span class="emoji">🥉</span><div><strong>Visit your third choice first</strong><span class="desc">Concretizes alternatives; strengthens leverage with the preferred party.</span></div></li>
+      <li><span class="emoji">❓</span><div><strong>Experts ask 22–24% of the time</strong><span class="desc">Follow-up questions signal listening — highest-leverage rapport move.</span></div></li>
+      <li><span class="emoji">🔬</span><div><strong>Architecture is found experimentally</strong><span class="desc">Published winners are survivors of thousands of failed runs — iterate, don't worship narratives.</span></div></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = cur === 'dark' || (cur === 'auto' && sysDark);
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+  });
+
+  // Modal logic
+  const modal = document.getElementById('learnedModal');
+  const openBtn = document.getElementById('openModal');
+  const closeBtn = document.getElementById('closeModal');
+  function openModal() { modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+</script>
+</body>
+</html>
